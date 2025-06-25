@@ -1,23 +1,24 @@
 #include "permutation.h"
 #include <algorithm>
-#include <cstdlib>      // for rand, srand
-#include <ctime>        // for time
+#include <cstdlib>
+#include <ctime>
+
+void fisher_yates_shuffle(std::vector<int>& vec) {
+    for (int i = static_cast<int>(vec.size()) - 1; i > 0; --i) {
+        int j = std::rand() % (i + 1);
+        std::swap(vec[i], vec[j]);
+    }
+}
 
 void randompermutation(
-    std::vector<int>& vertices,
+    const std::vector<int>& vertices,
     std::vector<int>& permuted_vertices,
     std::unordered_map<int, int>& position
 ) {
     permuted_vertices = vertices;
-    std::srand(std::time(0)); // Seed the random number generator
+    std::srand(static_cast<unsigned int>(std::time(0))); // Seed once per run
+    fisher_yates_shuffle(permuted_vertices);
 
-    // Fisher-Yates shuffle from Geeks for Geeks 
-    for (int i = static_cast<int>(permuted_vertices.size()) - 1; i > 0; --i) { // Start from the last element and swap it with a random element before it
-        int j = std::rand() % (i + 1); // Generate a random index from 0 to i
-        std::swap(permuted_vertices[i], permuted_vertices[j]);
-    }
-
-    // Map each vertex to its permutation position (1-based index)
     position.clear();
     for (size_t i = 0; i < permuted_vertices.size(); ++i) {
         position[permuted_vertices[i]] = static_cast<int>(i) + 1;

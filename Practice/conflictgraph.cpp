@@ -26,47 +26,12 @@ void StreamingConflictGraph::conflictsubgraphs(
     }
 }
 
-
-// std::set<std::pair<int, int>> StreamingConflictGraph::conflictgraph() const {
-//     std::set<std::pair<int, int>> conflict_edges;
-
-//     for (const auto& colour_entry : sketch) {
-//         int colour = colour_entry.first;
-//         const auto& edges = colour_entry.second;
-//         std::cout << "Colour " << colour << " edges:" << std::endl;
-//         for (const auto& e : edges) {
-//             std::cout << "(" << e.first << ", " << e.second << ")" << std::endl;
-//         }
-//         conflict_edges.insert(edges.begin(), edges.end());
-//     }
-
-//     return conflict_edges;
-// }
-
-// std::set<std::pair<int, int>> StreamingConflictGraph::conflictgraph() const {
-//     std::set<std::pair<int, int>> conflict_edges;
-
-//     for (const auto& colour_entry : sketch) {
-//         const auto& edges = colour_entry.second;
-//         conflict_edges.insert(edges.begin(), edges.end());
-//     }
-//     return conflict_edges;
-// }
-
 std::set<std::pair<int, int>> StreamingConflictGraph::conflictgraph() const {
     std::set<std::pair<int, int>> conflict_edges;
 
-    // Gather all conflict edges across all colours
-    for (const auto& colour_entry : sketch) {
+    for (const auto& colour_entry : sketch) { // Gather all conflict edges across all colours
         const auto& edges = colour_entry.second;
         conflict_edges.insert(edges.begin(), edges.end());
     }
-
-    // Print only the combined unique conflict edges
-    std::cout << "Conflict edges:" << std::endl;
-    for (const auto& e : conflict_edges) {
-        std::cout << "(" << e.first << ", " << e.second << ")" << std::endl;
-    }
-
     return conflict_edges;
 }

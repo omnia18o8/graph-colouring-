@@ -22,14 +22,16 @@ std::unordered_map<int, int> getlistsizes(
         int lv = static_cast<int>(std::floor((40.00 * V * logn) / piv));
         int lsize = std::min(Delta + 1, lv);
         list_sizes[v] = lsize;
-
-        // Print statement for debugging
-        std::cout << "Vertex: " << v 
-                  << " | permutation (pi): " << piv
-                  << " | list size: " << lsize 
-                  << std::endl;
     }
     return list_sizes;
+}
+
+void fisher_yates(std::vector<int>& vec) {
+    int n = vec.size();
+    for (int i = n - 1; i > 0; --i) {
+        int j = std::rand() % (i + 1);
+        std::swap(vec[i], vec[j]);
+    }
 }
 
 
@@ -39,26 +41,18 @@ std::unordered_map<int, std::vector<int>> assigncolours(
     const std::vector<int>& vertices
 ) {
     std::unordered_map<int, std::vector<int>> colour_lists;
-
-    // Seed the random number generator once
-    std::srand(static_cast<unsigned int>(std::time(0)));
+    std::srand(static_cast<unsigned int>(std::time(0))); //Why 0?
 
     for (int v : vertices) {
         int lsize = list_sizes.at(v);
 
-        // Create a palette of colours from 1 to Delta + 1
         std::vector<int> palette(Delta + 1);
         std::iota(palette.begin(), palette.end(), 1);
 
-        // Fisher-Yates shuffle (manual version using rand())
-        for (int i = Delta; i > 0; --i) {
-            int j = std::rand() % (i + 1);
-            std::swap(palette[i], palette[j]);
-        }
-        // Select the first lsize colours from the shuffled palette
-        std::vector<int> selected(palette.begin(), palette.begin() + lsize);;
+        fisher_yates(palette);
+
+        std::vector<int> selected(palette.begin(), palette.begin() + lsize);
         colour_lists[v] = selected;
     }
     return colour_lists;
 }
-

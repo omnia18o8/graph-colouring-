@@ -3,18 +3,16 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
+#include <utility>
 
 namespace GraphInitialisation {
-    extern int V;
-    extern int E;
-    extern int Delta;
-
+    extern int V, E, Delta;
     extern std::unordered_map<int, std::vector<int>> adj;
 
-    //extern makes it global
-
-    void getdelta(const std::string& filename, bool directed = false);
-    // directed parameter allows to specify if the graph is directed or undirected
+    std::vector<int> get_vertices(const std::string& filename);
+    std::vector<std::pair<int, int>> get_edges(const std::string& filename);
+    void getdelta(const std::string& filename);
 }
 
 #endif

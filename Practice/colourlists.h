@@ -7,14 +7,17 @@
 std::unordered_map<int, int> getlistsizes(
     int V,
     int Delta, 
-    const std::unordered_map<int, int>& pi, // map of V: pi(v)
-    const std::vector<int>& vertices //list of vertices (used for permuted vertices)
+    const std::unordered_map<int, int>& pi,    // permutation map: vertex -> π(v)
+    const std::vector<int>& vertices  // list of vertices (in permutation order)
 );
+
 
 std::unordered_map<int, std::vector<int>> assigncolours(
     int Delta,
-    const std::unordered_map<int, int>& list_sizes, //map of list sizes for each vertex
+    const std::unordered_map<int, int>& list_sizes,  // map: vertex -> list size
     const std::vector<int>& vertices
 );
 
-#endif 
+void fisher_yates(std::vector<int>& vec);
+
+#endif
