@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Werror
 
-SRCS = main.cpp permutation.cpp graphinitialisation.cpp colourlists.cpp conflictgraph.cpp greedyalgorithm.cpp
+SRCS = main.cpp permutation.cpp graphinitialisation.cpp colourlists.cpp conflictgraph.cpp greedyalgorithm.cpp output.cpp
 
 TARGET = myprog
 

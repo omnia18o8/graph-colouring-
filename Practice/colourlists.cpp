@@ -16,10 +16,10 @@ std::unordered_map<int, int> getlistsizes(
     const std::vector<int>& vertices
 ) {
     std::unordered_map<int, int> list_sizes;
-    long double logn = std::log(V);
+    long double logn = std::log2(V);
     for (int v : vertices) {
         int piv = pi.at(v);
-        int lv = static_cast<int>(std::floor((40.00 * V * logn) / piv));
+        int lv = static_cast<int>(std::floor((16.00 * V * logn) / piv));
         int lsize = std::min(Delta + 1, lv);
         list_sizes[v] = lsize;
     }

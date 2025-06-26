@@ -4,24 +4,26 @@
 #include <unordered_map>
 #include <vector>
 #include <set>
-#include <utility> 
 
 class StreamingConflictGraph {
 public:
-    StreamingConflictGraph(); // Constructor
+    StreamingConflictGraph(int max_colour, int num_nodes, int sketch_width = 4096);
 
-    // Process an edge in the stream: (u, v) with per-vertex colour lists.
-    void conflictsubgraphs(
-        int u,
-        int v,
-        const std::unordered_map<int, std::vector<int>>& colour_lists
-    );
-    
-    std::set<std::pair<int, int>> conflictgraph() const; // Return the set of conflict edges as a set of unique pairs (u, v)
+    void conflictsubgraphs(int u, int v, const std::unordered_map<int, std::vector<int>>& colour_lists, int delta = +1);
+    std::set<std::pair<int, int>> conflictgraph() const;
 
 private:
-    // For each colour, store a set of unique sorted vertex pairs (conflict edges)
-    std::unordered_map<int, std::set<std::pair<int, int>>> sketch;
+    struct SketchSet {
+        std::vector<std::vector<int>> count, sum_u, sum_v;
+    };
+
+    int t; // Number of sketches (t = ceil(log2 n))
+    int w; // Sketch width (buckets per sketch)
+    std::unordered_map<int, SketchSet> colour_sketches;
+    std::unordered_map<int, std::vector<uint64_t>> colour_hash_seeds; // [t] seeds per colour
+
+    // Hash function for (u,v) in sketch j for colour c
+    int hash_edge(int c, int u, int v, int j) const;
 };
 
-#endif 
+#endif
