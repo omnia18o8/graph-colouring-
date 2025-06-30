@@ -15,7 +15,8 @@
 #include <chrono>
 
 int main() {
-    std::string file = "../Graphs/facebook_combined.txt"; 
+    std::string file = "../Graphs/loc-gowalla_edges.txt"; 
+    std::srand(time(0));
 
     // Step 1: Initialise graph
     std::vector<int> vertices = GraphInitialisation::get_vertices(file);
@@ -42,31 +43,30 @@ int main() {
         permuted_vertices
     );
 
-    // Step 4: Stream edge list again and build conflict subgraphs
-    //StreamingConflictGraph streamer;
-    StreamingConflictGraph streamer(GraphInitialisation::Delta + 1, vertices.size(), 4096);
-    auto conflictsubgraphs_start = std::chrono::high_resolution_clock::now();
 
-    std::ifstream edge_file(file);
-    int u, v;
-    while (edge_file >> u >> v) {
-        streamer.conflictsubgraphs(u, v, colour_lists);
-    }
-    edge_file.close();
+    // // Step 4: Stream edge list again and build conflict subgraphs
+// Read edge list into memory
+std::vector<std::pair<int, int>> edges;
+std::ifstream edge_file(file);
+int u, v;
+while (edge_file >> u >> v) {
+    edges.emplace_back(u, v);
+}
+edge_file.close();
 
-    auto conflictsubgraphs_end = std::chrono::high_resolution_clock::now();
-    double conflictsubgraphs_time = std::chrono::duration<double>(conflictsubgraphs_end - conflictsubgraphs_start).count();
+// Build conflict graph directly
+StreamingConflictGraph streamer; // No params now
+auto conflictgraph_start = std::chrono::high_resolution_clock::now();
+std::set<std::pair<int, int>> conflict_edges =
+    streamer.build_conflict_graph_from_edges(edges, colour_lists);
+auto conflictgraph_end = std::chrono::high_resolution_clock::now();
+double conflictgraph_time = std::chrono::duration<double>(conflictgraph_end - conflictgraph_start).count();
 
-
-    // --- Time conflictgraph extraction ---
-    auto conflictgraph_start = std::chrono::high_resolution_clock::now();
-    std::set<std::pair<int, int>> conflict_edges = streamer.conflictgraph();
-    auto conflictgraph_end = std::chrono::high_resolution_clock::now();
-    double conflictgraph_time = std::chrono::duration<double>(conflictgraph_end - conflictgraph_start).count();
+std::cout << "Time taken for conflictgraph: " << conflictgraph_time << " seconds" << std::endl;
 
     
 
-    // Step 5: Greedy colouring of conflict graph
+    // // Step 5: Greedy colouring of conflict graph
 
     auto greedy_colour_conflict_graph_start = std::chrono::high_resolution_clock::now();
     std::unordered_map<int, int> conflict_colouring = greedy_colour_conflict_graph(
@@ -94,24 +94,28 @@ int main() {
     double colour_non_conflict_vertices_time = std::chrono::duration<double>(
         colour_non_conflict_vertices_end - colour_non_conflict_vertices_start
     ).count();
+    std::cout << "Time taken for greedy_colour_conflict_graph: " << greedy_colour_conflict_graph_time << " seconds" << std::endl;
+    std::cout << "Time taken for build_conflict_adj_from_edges: " << build_conflict_adj_from_edges_time << " seconds" << std::endl;
+    std::cout << "Time taken for colour_non_conflict_vertices: " << colour_non_conflict_vertices_time << " seconds" << std::endl;
 
 
-     print_graph_stats(
-        file,
-        vertices,
-        GraphInitialisation::get_edges(file),
-        conflict_edges,
-        colour_lists,
-        conflict_colouring,
-        conflict_colouring, // or your final full colouring
-        GraphInitialisation::Delta,
-        position,
-        conflictsubgraphs_time,
+print_graph_stats(
+    file,
+    vertices,
+    GraphInitialisation::get_edges(file),
+    conflict_edges,
+    colour_lists,
+    conflict_colouring,
+    conflict_colouring, // or your final full colouring
+    GraphInitialisation::Delta,
+    position,
     conflictgraph_time,
     greedy_colour_conflict_graph_time,
     build_conflict_adj_from_edges_time,
     colour_non_conflict_vertices_time
-    );
+);
+
+
 
 
     return 0;

@@ -16,7 +16,6 @@ void print_graph_stats(
     const std::unordered_map<int, int>& whole_colouring,
     int Delta,
     const std::unordered_map<int, int>& pi,
-    double conflictsubgraphs_time,
     double conflictgraph_time,
     double greedy_colour_conflict_graph_time,
     double build_conflict_adj_from_edges_time,

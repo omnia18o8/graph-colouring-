@@ -15,7 +15,6 @@ void print_graph_stats(
     const std::unordered_map<int, int>& whole_colouring,
     int Delta,
     const std::unordered_map<int, int>& pi,
-    double conflictsubgraphs_time,
     double conflictgraph_time,
     double greedy_colour_conflict_graph_time,
     double build_conflict_adj_from_edges_time,
@@ -34,7 +33,6 @@ void print_graph_stats(
     }
     std::cout << "Vertices in conflict graph:       " << conflict_vertices.size() << "\n";
     std::cout << "Edges in conflict graph:          " << conflict_edges.size() << "\n";
-
     std::cout << "Delta (max degree):               " << Delta << "\n";
 
     // List size stats
@@ -55,18 +53,17 @@ void print_graph_stats(
     std::unordered_set<int> conflict_colours;
     for (const auto& [v, c] : conflict_colouring) conflict_colours.insert(c);
     std::cout << "Colours used in conflict graph:   " << conflict_colours.size() << "\n";
-    std::cout << "Conflict graph colours:\n";
-    
+    std::cout << "Conflict graph colours:";
+    for (int col : conflict_colours) std::cout << " " << col;
+    std::cout << "\n";
 
     // Colours used (whole graph)
     std::unordered_set<int> all_colours;
     for (const auto& [v, c] : whole_colouring) all_colours.insert(c);
     std::cout << "Colours used in whole graph:      " << all_colours.size() << "\n";
-    std::cout << "Whole graph colours:\n";
-    // for (const auto& [v, c] : whole_colouring) {
-    //     std::cout << "  Vertex " << v << ": colour " << c << "\n";
-    // }
-    
+    std::cout << "Whole graph colours:";
+    for (int col : all_colours) std::cout << " " << col;
+    std::cout << "\n";
 
     // List size & permutation for a sample of vertices
     std::cout << "Sample list sizes and permutation:\n";
@@ -79,11 +76,9 @@ void print_graph_stats(
 
     // Timing
     std::cout << std::fixed << std::setprecision(6);
-    std::cout << "conflictsubgraphs.time:           " << conflictsubgraphs_time << " seconds\n";
     std::cout << "conflictgraph.time:               " << conflictgraph_time << " seconds\n";
     std::cout << "greedy_colour_conflict_graph.time: " << greedy_colour_conflict_graph_time << " seconds\n";
-std::cout << "build_conflict_adj_from_edges.time: " << build_conflict_adj_from_edges_time << " seconds\n";
-std::cout << "colour_non_conflict_vertices.time: " << colour_non_conflict_vertices_time << " seconds\n";
-
+    std::cout << "build_conflict_adj_from_edges.time: " << build_conflict_adj_from_edges_time << " seconds\n";
+    std::cout << "colour_non_conflict_vertices.time: " << colour_non_conflict_vertices_time << " seconds\n";
     std::cout << "======================================\n";
 }

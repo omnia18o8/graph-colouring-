@@ -2,13 +2,17 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 void fisher_yates_shuffle(std::vector<int>& vec) {
-    for (int i = static_cast<int>(vec.size()) - 1; i > 0; --i) {
+    for (int i = vec.size() - 1; i > 0; --i) {
         int j = std::rand() % (i + 1);
-        std::swap(vec[i], vec[j]);
+        int temp = vec[i];
+        vec[i] = vec[j];
+        vec[j] = temp;
     }
 }
+
 
 void randompermutation(
     const std::vector<int>& vertices,
@@ -16,11 +20,9 @@ void randompermutation(
     std::unordered_map<int, int>& position
 ) {
     permuted_vertices = vertices;
-    std::srand(static_cast<unsigned int>(std::time(0))); // Seed once per run
     fisher_yates_shuffle(permuted_vertices);
 
-    position.clear();
     for (size_t i = 0; i < permuted_vertices.size(); ++i) {
-        position[permuted_vertices[i]] = static_cast<int>(i) + 1;
+        position[permuted_vertices[i]] = (i) + 1;
     }
 }

@@ -1,37 +1,26 @@
 #include "colourlists.h"
-#include <random>
+#include "permutation.h" 
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
 #include <numeric>
-#include <unordered_set>
+#include <cmath>
 #include <iostream>
-#include <chrono>
-#include <fstream>
 
 std::unordered_map<int, int> getlistsizes(
     int V, 
     int Delta, 
-    const std::unordered_map<int, int>& pi,
+    const std::unordered_map<int, int>& position,
     const std::vector<int>& vertices
 ) {
     std::unordered_map<int, int> list_sizes;
-    long double logn = std::log2(V);
+    double logn = std::log(V);
     for (int v : vertices) {
-        int piv = pi.at(v);
-        int lv = static_cast<int>(std::floor((16.00 * V * logn) / piv));
-        int lsize = std::min(Delta + 1, lv);
-        list_sizes[v] = lsize;
+        int piv = position.at(v);
+        int lv = static_cast<int>(std::floor((40.0 * V * logn) / piv)); //round down or up?
+        list_sizes[v] = std::min(Delta + 1, lv);
     }
     return list_sizes;
-}
-
-void fisher_yates(std::vector<int>& vec) {
-    int n = vec.size();
-    for (int i = n - 1; i > 0; --i) {
-        int j = std::rand() % (i + 1);
-        std::swap(vec[i], vec[j]);
-    }
 }
 
 
@@ -41,18 +30,26 @@ std::unordered_map<int, std::vector<int>> assigncolours(
     const std::vector<int>& vertices
 ) {
     std::unordered_map<int, std::vector<int>> colour_lists;
-    std::srand(static_cast<unsigned int>(std::time(0))); //Why 0?
 
     for (int v : vertices) {
         int lsize = list_sizes.at(v);
 
         std::vector<int> palette(Delta + 1);
         std::iota(palette.begin(), palette.end(), 1);
-
-        fisher_yates(palette);
+        fisher_yates_shuffle(palette);
 
         std::vector<int> selected(palette.begin(), palette.begin() + lsize);
         colour_lists[v] = selected;
+
+
+        // std::cout << "[assigncolours] Vertex " << v
+        //           << " | lsize = " << lsize
+        //           << " | assigned: [";
+        // for (int i = 0; i < lsize; ++i) {
+        //     std::cout << selected[i];
+        //     if (i < lsize - 1) std::cout << ", ";
+        // }
+        // std::cout << "]\n";
     }
     return colour_lists;
 }
