@@ -2,19 +2,20 @@
 #include <iostream>
 
 int main() {
-    int m = 5; // number of rows
-    int n = 5; // number of columns
+    int m = 1000; 
+    int n = 1000; 
 
-    std::ofstream outfile("grid.txt");
+    std::ofstream outfile("../grid.txt");
     if (!outfile) {
         std::cerr << "Error: Could not open file for writing." << std::endl;
         return 1;
     }
 
-    // Node numbering: (row, col) => node = row * n + col
+    //node = row * n + col
     for (int row = 0; row < m; ++row) {
         for (int col = 0; col < n; ++col) {
             int node = row * n + col;
+
             // Connect to right neighbor
             if (col + 1 < n) {
                 int right = row * n + (col + 1);
@@ -29,7 +30,6 @@ int main() {
     }
 
     outfile.close();
-    std::cout << "Grid graph (" << m << "x" << n << ") written to grid_" << m << "_" << n << ".txt" << std::endl;
     return 0;
 }
 

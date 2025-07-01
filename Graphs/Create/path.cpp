@@ -3,13 +3,15 @@
 
 //g++ -std=c++17 -Wall path.cpp -o path  
 int main() {
-    std::ofstream outfile("/Users/omniaali/Documents/Dissertation/Code/Dissertation/Graphs/path.txt");
+    std::ofstream outfile("../path.txt");
     if (!outfile) {
         std::cerr << "Error: Could not open file for writing." << std::endl;
         return 1;
     }
-    // Generate path graph edges
-    for (int i = 0; i < 99999; ++i) {
+
+    int n = 10000; 
+
+    for (int i = 0; i < n; ++i) {
         outfile << i << " " << (i + 1) << std::endl;
     }
     outfile.close();

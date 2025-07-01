@@ -2,9 +2,9 @@
 #include <iostream>
 
 int main() {
-    const int m = 10; // size of first part
-    const int n = 10; // size of second part
-    std::ofstream outfile("bipartite.txt");
+    const int m = 1000; 
+    const int n = 1000;
+    std::ofstream outfile("../bipartite.txt");
     if (!outfile) {
         std::cerr << "Error: Could not open file for writing." << std::endl;
         return 1;

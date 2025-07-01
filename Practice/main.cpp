@@ -15,7 +15,7 @@
 #include <chrono>
 
 int main() {
-    std::string file = "../Graphs/loc-gowalla_edges.txt"; 
+    std::string file = "../Graphs/facebook_combined.txt"; 
     std::srand(time(0));
 
     // Step 1: Initialise graph
