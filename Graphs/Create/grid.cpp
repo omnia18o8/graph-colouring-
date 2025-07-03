@@ -6,10 +6,6 @@ int main() {
     int n = 1000; 
 
     std::ofstream outfile("../grid.txt");
-    if (!outfile) {
-        std::cerr << "Error: Could not open file for writing." << std::endl;
-        return 1;
-    }
 
     //node = row * n + col
     for (int row = 0; row < m; ++row) {

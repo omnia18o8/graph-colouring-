@@ -1,15 +1,6 @@
-#ifndef PERMUTATION_H
-#define PERMUTATION_H
-
+#pragma once
 #include <vector>
 #include <unordered_map>
 
 void fisher_yates_shuffle(std::vector<int>& vec);
-
-void randompermutation(
-    const std::vector<int>& vertices,
-    std::vector<int>& permuted_vertices,
-    std::unordered_map<int, int>& position
-);
-
-#endif
+std::unordered_map<int, int> randompermutation(std::vector<int>& vec);

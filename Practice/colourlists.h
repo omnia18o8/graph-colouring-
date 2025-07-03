@@ -1,20 +1,20 @@
-#ifndef COLOURLISTS_H
-#define COLOURLISTS_H
+#pragma once
 
-#include <vector>
 #include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 
 std::unordered_map<int, int> getlistsizes(
-    int V,
+    int V, 
     int Delta, 
-    const std::unordered_map<int, int>& pi,    // permutation map: vertex -> position
-    const std::vector<int>& vertices  // list of vertices from permutation
+    const std::unordered_map<int, int>& position,
+    const std::vector<int>& vertices
 );
 
 std::unordered_map<int, std::vector<int>> assigncolours(
     int Delta,
-    const std::unordered_map<int, int>& list_sizes,  // map: vertex to list size
+    const std::unordered_map<int, int>& list_sizes,
     const std::vector<int>& vertices
 );
-
-#endif

@@ -1,10 +1,11 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
-
+#pragma once
+#include <string>
 #include <vector>
 #include <set>
 #include <unordered_map>
-#include <string>
+
+// No PaletteBitset here
+size_t getCurrentRSS();
 
 void print_graph_stats(
     const std::string& input_graph_file,
@@ -15,11 +16,22 @@ void print_graph_stats(
     const std::unordered_map<int, int>& conflict_colouring,
     const std::unordered_map<int, int>& whole_colouring,
     int Delta,
-    const std::unordered_map<int, int>& pi,
+    // timings...
+    double init_time,
+    double permutation_time,
+    double listsizes_time,
+    double assigncolours_time,
     double conflictgraph_time,
     double greedy_colour_conflict_graph_time,
-    double build_conflict_adj_from_edges_time,
-    double colour_non_conflict_vertices_time
+    double colour_non_conflict_vertices_time,
+    double total_time,
+    // memory...
+    size_t init_mem,
+    size_t permutation_mem,
+    size_t listsizes_mem,
+    size_t assigncolours_mem,
+    size_t conflictgraph_mem,
+    size_t greedy_colour_conflict_graph_mem,
+    size_t colour_non_conflict_vertices_mem,
+    size_t total_mem
 );
-
-#endif
