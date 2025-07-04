@@ -61,7 +61,7 @@ void print_graph_stats(
     size_t colour_non_conflict_vertices_mem,
     size_t total_mem
 ) {
-    std::cout << std::fixed << std::setprecision(6);
+    std::cout << std::fixed << std::setprecision(2);
 
     std::cout << "========== GRAPH STATISTICS ==========\n";
     std::cout << "Input graph file:                " << input_graph_file << "\n";
@@ -83,13 +83,20 @@ void print_graph_stats(
     int min_list_size = std::numeric_limits<int>::max();
 
     for (const auto& v : vertices) {
-        int lsize = Delta + 1;
-        auto it = colour_lists.find(v);
-        if (it != colour_lists.end()) lsize = (int)it->second.size();
-        sum += lsize;
-        if (lsize < min_list_size)
-            min_list_size = lsize;
+    int lsize = Delta + 1;
+    auto it = colour_lists.find(v);
+    if (it != colour_lists.end()) {
+        // If the list is [0], it's a flag for the full palette
+        if (it->second.size() == 1 && it->second[0] == 0)
+            lsize = Delta + 1;
+        else
+            lsize = (int)it->second.size();
     }
+    sum += lsize;
+    if (lsize < min_list_size)
+        min_list_size = lsize;
+}
+
     double avg_list_size = vertices.empty() ? 0.0 : sum / vertices.size();
     std::cout << "Average list size:                " << avg_list_size << "\n";
     std::cout << "Smallest list size:               " << min_list_size << "\n";

@@ -9,12 +9,14 @@ std::unordered_map<int, int> getlistsizes(
     std::unordered_map<int, int> list_sizes;
     list_sizes.reserve(vertices.size());
     double logn = std::log(V);
+    double numerator = 40.0 * V * logn;
 
     for (int v : vertices) {
         int piv = position.at(v);
-        int lv = static_cast<int>((40.0 * V * logn) / piv);
+        int lv = static_cast<int>(numerator / piv);
         list_sizes[v] = std::min(Delta + 1, lv);
     }
+
     return list_sizes;
 }
 std::unordered_map<int, std::vector<int>> assigncolours(
@@ -35,8 +37,8 @@ std::unordered_map<int, std::vector<int>> assigncolours(
             std::vector<int> palette_copy = palette;
             fisher_yates_shuffle(palette_copy);
             std::vector<int> assigned(palette_copy.begin(), palette_copy.begin() + lsize);
-            std::sort(assigned.begin(), assigned.end()); // <--- SORT HERE
-            colour_lists[v] = std::move(assigned);
+            std::sort(assigned.begin(), assigned.end()); //Sort the assigned colours - might be a bottleneck
+            colour_lists[v] = std::move(assigned); //use move to avoid copying
         }
     }
     return colour_lists;

@@ -16,7 +16,7 @@ std::unordered_map<int, std::vector<int>> adjency_list(
     int u = edge.first;
     int v = edge.second;
     adj[u].push_back(v);
-    adj[v].push_back(u); // Undirected: both directions 
+    adj[v].push_back(u); // Undirected: both directions. In a conflict graph, if u conflicts with v, then v conflicts with u.
     }
     return adj;
 }
@@ -24,13 +24,13 @@ std::unordered_map<int, std::vector<int>> adjency_list(
 std::vector<int> vertex_order(
     std::vector<int>& vertices,
     const std::unordered_map<int, int>& permutation,
-    const std::unordered_map<int, int>& list_sizes // pass this in!
+    const std::unordered_map<int, int>& list_sizes 
 ) {
-    std::sort(vertices.begin(), vertices.end(), [&](int a, int b) {
-        int pa = list_sizes.at(a);
-        int pb = list_sizes.at(b);
-        if (pa != pb) return pa < pb; //returns pa if true
-        return permutation.at(a) < permutation.at(b); 
+    std::sort(vertices.begin(), vertices.end(), [&](int u, int v) {
+        int pu = list_sizes.at(u);
+        int pv = list_sizes.at(v);
+        if (pu != pv) return pu < pv; //returns pa if true
+        return permutation.at(u) < permutation.at(v); 
     });
     return vertices;
 }
@@ -39,7 +39,7 @@ std::vector<int> vertex_order(
 int assign_colour(const std::vector<int>& palette, const std::unordered_set<int>& forbidden) {
     for (size_t i = 0; i < palette.size(); ++i) {
         int c = palette[i];
-        if (!forbidden.count(c)) return c;
+        if (!forbidden.count(c)) return c; // Return the first colour not in the forbidden set
     }
     return -1;
 }
@@ -53,14 +53,14 @@ std::unordered_map<int, int> conflict_greedy(
 ) {
     std::unordered_map<int, int> colouring;
 
-    for (size_t idx = 0; idx < order.size(); ++idx) {
-        int v = order[idx];
+    for (size_t i = 0; i < order.size(); ++i) {
+        int v = order[i];
         std::unordered_set<int> forbidden;
-        const std::vector<int>& neighbours = adj.at(v);
+        const std::vector<int>& neighbours = adj.at(v); // Get the neighbours of vertex v
         
         for (size_t j = 0; j < neighbours.size(); ++j) {
             int u = neighbours[j];
-            if (colouring.count(u)) forbidden.insert(colouring[u]);
+            if (colouring.count(u)) forbidden.insert(colouring[u]); // Add the colour of u to the forbidden set
         }
 
         int assigned = -1;
@@ -85,7 +85,7 @@ void full_greedy(
         int v = all_vertices[i];
         if (!colouring.count(v) && conflict_adj.at(v).empty()) {
             int min_colour = -1;
-            if (colour_lists.count(v) && !is_full_palette(colour_lists.at(v))) {
+            if (!is_full_palette(colour_lists.at(v))) {
                 min_colour = colour_lists.at(v)[0];
 
             } else if (!full_palette.empty()) {

@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic 
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Werror -O2 
 
 SRCS = main.cpp permutation.cpp graphinitialisation.cpp colourlists.cpp conflictgraph.cpp greedyalgorithm.cpp output.cpp
 
