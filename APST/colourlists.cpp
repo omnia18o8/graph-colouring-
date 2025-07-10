@@ -1,23 +1,25 @@
 #include "colourlists.h"
 #include "graphinitialisation.h"
+
 std::unordered_map<int, int> getlistsizes(
     const std::unordered_map<int, int>& position,
-    const std::vector<int>& vertices
+    const std::vector<int>& vertices,
+    double constant
 ) {
     std::unordered_map<int, int> list_sizes;
     int V = vertices.size();
     int Delta = GraphInitialisation::Delta;
     list_sizes.reserve(vertices.size());
-    double numerator = 40.0 * V * std::log(V);
+    double numerator = constant * V * std::log(V);
 
     for (int v : vertices) {
         int piv = position.at(v);
         int lv = static_cast<int>(numerator / piv);
         list_sizes[v] = std::min(Delta + 1, lv);
     }
-
     return list_sizes;
 }
+
 
 // Xoshiro256++ PRNG
 static uint64_t s[4] = { 123456789, 362436069, 521288629, 88675123 };

@@ -10,8 +10,10 @@
 
 std::unordered_map<int, int> getlistsizes(
     const std::unordered_map<int, int>& position,
-    const std::vector<int>& vertices
+    const std::vector<int>& vertices,
+    double constant
 );
+
 
 std::unordered_map<int, std::vector<int>> assigncolours(
     int Delta,
