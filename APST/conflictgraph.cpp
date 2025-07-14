@@ -32,7 +32,6 @@ std::set<std::pair<int, int>> StreamingConflictGraph::conflict_graph(
             continue;
         }
 
-        // Shortcut 3: Check for intersection
         std::size_t i = 0, j = 0;
         while (i < Lu.size() && j < Lv.size()) {
             if (Lu[i] < Lv[j]) ++i;

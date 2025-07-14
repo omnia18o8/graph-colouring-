@@ -8,6 +8,8 @@
 #include <vector>
 #include <cmath>
 
+
+
 std::unordered_map<int, int> getlistsizes(
     const std::unordered_map<int, int>& position,
     const std::vector<int>& vertices,
