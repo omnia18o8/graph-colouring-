@@ -8,7 +8,7 @@
 #include <filesystem> 
 
 int main() {
-    std::string file = "../Graphs/large_twitch_edges.csv";
+    std::string file = "../Graphs/com-lj.ungraph.txt";
     std::string out_txt_path = "../Plot/results.txt"; 
 
     // Greedy algorithm 

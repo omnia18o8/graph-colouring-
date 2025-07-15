@@ -37,6 +37,14 @@ GreedyResult greedy(const std::string& file) {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
+    //Print adjacency list
+    // for (const auto& [v, neighbors] : adj) {
+    //     std::cout << "Vertex " << v << ": ";
+    //     for (int neighbor : neighbors) {
+    //         std::cout << neighbor << " ";
+    //     }
+    //     std::cout << '\n';
+    // }
 
     std::unordered_map<int, int> colouring;
     for (int v : vertices) colouring[v] = -1;
@@ -84,16 +92,16 @@ GreedyResult greedy(const std::string& file) {
     double memory_gb = memory_bytes / (1024.0 * 1024.0);
 
 
-for (const auto& [u, v] : edges) {
-    int col_u = colouring.count(u) ? colouring[u] : -1;
-    int col_v = colouring.count(v) ? colouring[v] : -1;
-    std::cout << "Edge (" << u << ", " << v << "): Colour[" << u << "]=" << col_u 
-              << ", Colour[" << v << "]=" << col_v;
-    if (col_u == col_v && col_u != -1) {
-        std::cout << "  <-- Conflict";
-    }
-    std::cout << '\n';
-}
+// for (const auto& [u, v] : edges) {
+//     int col_u = colouring.count(u) ? colouring[u] : -1;
+//     int col_v = colouring.count(v) ? colouring[v] : -1;
+//     std::cout << "Edge (" << u << ", " << v << "): Colour[" << u << "]=" << col_u 
+//               << ", Colour[" << v << "]=" << col_v;
+//     if (col_u == col_v && col_u != -1) {
+//         std::cout << "  <-- Conflict";
+//     }
+//     std::cout << '\n';
+// }
 
 
     GreedyResult result;

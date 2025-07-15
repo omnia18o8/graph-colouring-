@@ -14,7 +14,7 @@
 
 APSTResult apst(const std::string& filename, double constant) {
     std::srand(time(0));
-    auto total_start = std::chrono::high_resolution_clock::now();
+    
 
     auto gdata = GraphInitialisation::initialise_graph(filename);
     std::vector<int> vertices = std::move(gdata.vertices);
@@ -28,7 +28,7 @@ APSTResult apst(const std::string& filename, double constant) {
         if (!(list.size() == 1 && list[0] == 0) && list.size() != static_cast<std::size_t>(GraphInitialisation::Delta + 1))
             std::sort(list.begin(), list.end());
     }
-
+auto total_start = std::chrono::high_resolution_clock::now();
     StreamingConflictGraph streamer;
     std::set<std::pair<int, int>> conflict_edges = streamer.conflict_graph(edges, colour_lists);
 

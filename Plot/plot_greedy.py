@@ -11,10 +11,10 @@ def load_apst_greedy(txt_path):
         header=0
     )
     if "apst_memory" in df.columns:
-        df["apst_memory_MB"] = df["apst_memory"] / (1024 * 1024)
+        df["apst_memory_MB"] = df["apst_memory"] 
     if "greedy_memory" in df.columns:
-        df["greedy_memory_MB"] = df["greedy_memory"] / (1024 * 1024)
-    df["Delta+1"] = df["delta"] + 1
+        df["greedy_memory_MB"] = df["greedy_memory"]
+    df["Delta+1"] = df["delta"] + 1 # Change here for nodes
     df["filename"] = df["filename"].astype(str)
     return df
 
@@ -49,6 +49,6 @@ if __name__ == "__main__":
     result_txt = "results.txt"
     df = load_apst_greedy(result_txt)
 
-    plot_vs_deltap1(df, "apst_colours", "greedy_colours", "Colours Used", "colours_vs_deltap1.png")
-    plot_vs_deltap1(df, "apst_time", "greedy_time", "Time (s)", "time_vs_deltap1.png")
-    plot_vs_deltap1(df, "apst_memory_MB", "greedy_memory_MB", "Memory (MB)", "memory_vs_deltap1.png")
+    plot_vs_deltap1(df, "apst_colours", "greedy_colours", "Colours Used", "Images/greedy_colours_vs_deltap1.png")
+    plot_vs_deltap1(df, "apst_time", "greedy_time", "Time (s)", "Images/greedy_time_vs_deltap1.png")
+    plot_vs_deltap1(df, "apst_memory_MB", "greedy_memory_MB", "Memory (MB)", "Images/greedy_memory_vs_deltap1.png")
